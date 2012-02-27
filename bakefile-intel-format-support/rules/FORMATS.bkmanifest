@@ -1,0 +1,129 @@
+<?xml version="1.0" ?>
+<!--
+
+  This file is part of Bakefile (http://www.bakefile.org)
+
+  Copyright (C) 2003-2007 Vaclav Slavik
+  Support for Intel C++ on Windows by Phuong Tang - tangkhaiphuong@gmail.com
+
+  Permission is hereby granted, free of charge, to any person obtaining a copy
+  of this software and associated documentation files (the "Software"), to
+  deal in the Software without restriction, including without limitation the
+  rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+  sell copies of the Software, and to permit persons to whom the Software is
+  furnished to do so, subject to the following conditions:
+
+  The above copyright notice and this permission notice shall be included in
+  all copies or substantial portions of the Software.
+
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+  IN THE SOFTWARE.
+
+  $Id: FORMATS.bkmanifest 1334 2010-02-06 17:08:31Z vaclavslavik $
+
+-->
+<bakefile-manifest xmlns="http://www.bakefile.org/schema/bakefile-formats">
+
+    <format id="autoconf">
+        <description>GNU autoconf Makefile.in files</description>
+        <default-filename>Makefile.in</default-filename>
+    </format>
+
+    <format id="watcom">
+        <description>OpenWatcom makefiles</description>
+        <default-filename>makefile.wat</default-filename>
+    </format>
+
+    <format id="borland">
+        <description>Borland C/C++ makefiles</description>
+        <default-filename>makefile.bcc</default-filename>
+    </format>
+
+    <format id="mingw">
+        <description>MinGW makefiles (mingw32-make)</description>
+        <default-filename>makefile.gcc</default-filename>
+    </format>
+
+    <format id="msvc">
+        <description>MS Visual C++ nmake makefiles</description>
+        <default-filename>makefile.vc</default-filename>
+    </format>
+
+    <format id="msvc6prj">
+        <description>MS Visual C++ 6.0 project files</description>
+        <default-filename>
+            $(os.path.splitext(os.path.basename(INPUT_FILE))[0]).dsw
+        </default-filename>
+    </format>
+
+    <format id="msevc4prj">
+        <description>MS eMbedded Visual C++ 4 project files</description>
+        <default-filename>
+            $(os.path.splitext(os.path.basename(INPUT_FILE))[0]).vcw
+        </default-filename>
+    </format>
+
+    <format id="msvs2003prj">
+        <description>MS Visual Studio 2003 project files</description>
+        <default-filename>
+            $(os.path.splitext(os.path.basename(INPUT_FILE))[0]).sln
+        </default-filename>
+    </format>
+
+    <format id="msvs2005prj">
+        <description>MS Visual Studio 2005 project files</description>
+        <default-filename>
+            $(os.path.splitext(os.path.basename(INPUT_FILE))[0]).sln
+        </default-filename>
+    </format>
+
+    <format id="msvs2008prj">
+        <description>MS Visual Studio 2008 project files</description>
+        <default-filename>
+            $(os.path.splitext(os.path.basename(INPUT_FILE))[0]).sln
+        </default-filename>
+    </format>
+
+    <format id="dmars">
+        <description>Digital Mars makefiles</description>
+        <default-filename>makefile.dmc</default-filename>
+    </format>
+
+    <format id="dmars_smake">
+        <description>Digital Mars makefiles for SMAKE</description>
+        <default-filename>makefile.dms</default-filename>
+    </format>
+
+    <format id="gnu">
+        <description>GNU toolchain makefiles (Unix)</description>
+        <default-filename>GNUmakefile</default-filename>
+    </format>
+    
+    <format id="xcode2">
+        <description>Xcode 2.4 project files</description>
+        <default-filename>
+            $(os.path.splitext(os.path.basename(INPUT_FILE))[0]).xcodeproj
+        </default-filename>
+    </format>
+
+    <format id="symbian">
+        <description>Symbian development files</description>
+        <default-filename>bld.inf</default-filename>
+    </format>
+
+    <format id="suncc">
+        <description>GNU makefiles for Sun CC compiler</description>
+        <default-filename>Makefile.suncc</default-filename>
+    </format>
+	
+    <format id="intelw">
+        <description>Intel C++ nmake makefiles base on MSVC</description>
+        <default-filename>makefile.icw</default-filename>
+    </format>
+
+</bakefile-manifest>

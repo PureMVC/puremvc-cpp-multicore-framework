@@ -1,0 +1,213 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="include">
+      <UniqueIdentifier>{12cfd929-f051-4f58-939f-dae4b76fae08}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\tut">
+      <UniqueIdentifier>{ccf697a8-0996-45d3-b465-96893043c655}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src">
+      <UniqueIdentifier>{ad510470-852b-4771-a98d-6391b6bcfd41}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Proxy">
+      <UniqueIdentifier>{4cc12019-e6d3-4593-8fc7-614643427878}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Command">
+      <UniqueIdentifier>{74372c8d-9ce2-4be4-973d-02dc4ea16eb7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Mediator">
+      <UniqueIdentifier>{d36e9dc5-605e-4478-96b3-3b7bec2e9e79}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Observer">
+      <UniqueIdentifier>{e70153b0-b112-42c2-b97e-edcd0c328479}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Facade">
+      <UniqueIdentifier>{bba6a6d2-c359-4f1f-8818-9c78af3bad4a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Controller">
+      <UniqueIdentifier>{830c8777-021a-4662-9bf5-a362f032597b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Model">
+      <UniqueIdentifier>{a697478e-a9ea-4462-a3e8-af1c6c178a7e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\View">
+      <UniqueIdentifier>{0cbb1aca-e8b4-48dd-bde0-9c573395f301}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Iterator">
+      <UniqueIdentifier>{20249f80-f2f4-4fb7-b813-29791e941b6b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Thread">
+      <UniqueIdentifier>{7738ddf6-f987-48a5-a43d-26132236b831}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\tut.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\tut_reporter.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\tut_restartable.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\tut\tut.hpp">
+      <Filter>include\tut</Filter>
+    </ClInclude>
+    <ClInclude Include="include\tut\tut_assert.hpp">
+      <Filter>include\tut</Filter>
+    </ClInclude>
+    <ClInclude Include="include\tut\tut_console_reporter.hpp">
+      <Filter>include\tut</Filter>
+    </ClInclude>
+    <ClInclude Include="include\tut\tut_cppunit_reporter.hpp">
+      <Filter>include\tut</Filter>
+    </ClInclude>
+    <ClInclude Include="include\tut\tut_exception.hpp">
+      <Filter>include\tut</Filter>
+    </ClInclude>
+    <ClInclude Include="include\tut\tut_posix.hpp">
+      <Filter>include\tut</Filter>
+    </ClInclude>
+    <ClInclude Include="include\tut\tut_reporter.hpp">
+      <Filter>include\tut</Filter>
+    </ClInclude>
+    <ClInclude Include="include\tut\tut_restartable.hpp">
+      <Filter>include\tut</Filter>
+    </ClInclude>
+    <ClInclude Include="include\tut\tut_result.hpp">
+      <Filter>include\tut</Filter>
+    </ClInclude>
+    <ClInclude Include="include\tut\tut_runner.hpp">
+      <Filter>include\tut</Filter>
+    </ClInclude>
+    <ClInclude Include="include\tut\tut_xml_reporter.hpp">
+      <Filter>include\tut</Filter>
+    </ClInclude>
+    <ClInclude Include="src\MacroCommandTestCommand.hpp">
+      <Filter>src\Command</Filter>
+    </ClInclude>
+    <ClInclude Include="src\MacroCommandTestSub1Command.hpp">
+      <Filter>src\Command</Filter>
+    </ClInclude>
+    <ClInclude Include="src\MacroCommandTestSub2Command.hpp">
+      <Filter>src\Command</Filter>
+    </ClInclude>
+    <ClInclude Include="src\MacroCommandTestVO.hpp">
+      <Filter>src\Command</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SimpleCommandTestCommand.hpp">
+      <Filter>src\Command</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SimpleCommandTestVO.hpp">
+      <Filter>src\Command</Filter>
+    </ClInclude>
+    <ClInclude Include="src\FacadeTestCommand.hpp">
+      <Filter>src\Facade</Filter>
+    </ClInclude>
+    <ClInclude Include="src\FacadeTestInheritance.hpp">
+      <Filter>src\Facade</Filter>
+    </ClInclude>
+    <ClInclude Include="src\FacadeTestVO.hpp">
+      <Filter>src\Facade</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ControllerTestCommand.hpp">
+      <Filter>src\Controller</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ControllerTestCommand2.hpp">
+      <Filter>src\Controller</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ControllerTestInheritance.hpp">
+      <Filter>src\Controller</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ControllerTestVO.hpp">
+      <Filter>src\Controller</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ModelTestInheritance.hpp">
+      <Filter>src\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ModelTestProxy.hpp">
+      <Filter>src\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ViewTest.hpp">
+      <Filter>src\View</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ViewTestInheritance.hpp">
+      <Filter>src\View</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ViewTestMediator.hpp">
+      <Filter>src\View</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ViewTestMediator2.hpp">
+      <Filter>src\View</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ViewTestMediator3.hpp">
+      <Filter>src\View</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ViewTestMediator4.hpp">
+      <Filter>src\View</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ViewTestMediator5.hpp">
+      <Filter>src\View</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ViewTestMediator6.hpp">
+      <Filter>src\View</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ViewTestNote.hpp">
+      <Filter>src\View</Filter>
+    </ClInclude>
+    <ClInclude Include="src\IteratorTest.hpp">
+      <Filter>src\Iterator</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SimpleCommandTestFirstCommand.hpp">
+      <Filter>src\Command</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SimpleCommandTestSecondCommand.hpp">
+      <Filter>src\Command</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\main.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ProxyTest.cpp">
+      <Filter>src\Proxy</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MacroCommandTest.cpp">
+      <Filter>src\Command</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SimpleCommandTest.cpp">
+      <Filter>src\Command</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MediatorTest.cpp">
+      <Filter>src\Mediator</Filter>
+    </ClCompile>
+    <ClCompile Include="src\NotificationTest.cpp">
+      <Filter>src\Observer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ObserverTest.cpp">
+      <Filter>src\Observer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\FacadeTest.cpp">
+      <Filter>src\Facade</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ControllerTest.cpp">
+      <Filter>src\Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ModelTest.cpp">
+      <Filter>src\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ViewTest.cpp">
+      <Filter>src\View</Filter>
+    </ClCompile>
+    <ClCompile Include="src\IteratorTest.cpp">
+      <Filter>src\Iterator</Filter>
+    </ClCompile>
+    <ClCompile Include="src\DelegateCommandTest.cpp">
+      <Filter>src\Command</Filter>
+    </ClCompile>
+    <ClCompile Include="src\PureMVCThreadTest.cpp">
+      <Filter>src\Thread</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

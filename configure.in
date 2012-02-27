@@ -1,0 +1,41 @@
+AC_PREREQ(2.53)
+AC_INIT([PureMVC], [1.0.0.0], [phuong.tang@puremvc.org])
+dnl pass some unique file file to AC_CONFIG_SRCDIR
+AC_CONFIG_SRCDIR([autoconf_inc.m4])
+AC_CANONICAL_HOST
+
+AC_PROG_CC
+AC_PROG_CXX
+AC_PROG_CXXCPP
+
+############################ Build mode configure ############################# 
+
+AC_ARG_ENABLE([debug], [AS_HELP_STRING([--enable-debug],[Enable debugging information [default=no]])], USE_DEBUG="$enableval", USE_DEBUG="no")
+
+############################ C++0x feature configure ############################# 
+
+AC_ARG_ENABLE([c++0x], [AS_HELP_STRING([--enable-c++0x],[Enable with with C++0x feature [default=no]])], USE_CPP0X="$enableval", USE_CPP0X="no")
+
+if test $USE_DEBUG = yes ; then
+    DEBUG=1
+    if test $USE_CPP0X = yes ; then
+        CXXFLAGS="-g -O0 -gdwarf-2 -Wall -std=c++0x"
+    else
+        CXXFLAGS="-g -O0 -gdwarf-2 -Wall"
+    fi
+else
+    DEBUG=0
+    if test $USE_CPP0X = yes ; then
+        CXXFLAGS="-O2 -std=c++0x"
+    else
+        CXXFLAGS=-O2
+    fi
+fi
+AC_SUBST(CXXFLAGS)
+
+############################################################################### 
+
+
+AC_BAKEFILE([m4_include(autoconf_inc.m4)])
+AC_CONFIG_FILES([Makefile puremvc.pc puremvc-static.pc])
+AC_OUTPUT

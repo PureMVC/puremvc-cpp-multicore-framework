@@ -1,0 +1,390 @@
+<makefile>
+    <using module="datafiles"/>
+    <using module="pkgconfig"/>
+    <pkgconfig id="pkgconfig">
+        <src>puremvc.pc</src>
+    </pkgconfig>
+    <pkgconfig id="pkgconfig2">
+        <src>puremvc-static.pc</src>
+    </pkgconfig>
+
+    <set var="DEBUG_DEFAULT" overwrite="0">0</set>
+    <option name="DEBUG">
+        <values>0,1</values>
+        <default-value>$(DEBUG_DEFAULT)</default-value>
+        <values-description>Release,Debug</values-description>
+        <description>Set to 1 to build debug version</description>
+    </option>
+
+    <set var="CPP0X_DEFAULT" overwrite="0">0</set>
+    <option name="CPP0X">
+        <values>0,1</values>
+        <default-value>$(CPP0X_DEFAULT)</default-value>
+        <values-description>C++0x,C++03</values-description>
+        <description>Set to 1 to build with C++0x support</description>
+    </option>
+
+    <if cond="FORMAT!='autoconf'">
+        <if cond="FORMAT!='mingw'">
+            <set var="COMPILER_DEFINE">$(COMPILER)</set>
+        </if>
+        <if cond="FORMAT=='mingw'">
+            <set var="COMPILER_DEFINE">mingw</set>
+        </if>
+    </if>
+
+    <template id="debugopt">
+        <define>
+            $(substituteFromDict(DEBUG,{'1':'_DEBUG','0':'NDEBUG'}))
+        </define>
+        <define>
+            $(substituteFromDict(DEBUG,{'1':'DEBUG','0':'NDEBUG'}))
+        </define>
+        <optimize>
+            $(substituteFromDict(DEBUG,{'1':'off','0':'speed'}))
+        </optimize>
+        <debug-info>
+            $(substituteFromDict(DEBUG,{'1':'on','0':'off'}))
+        </debug-info>
+        <warnings>
+            $(substituteFromDict(DEBUG,{'1':'max','0':'no'}))
+        </warnings>
+        <debug-runtime-libs>
+            $(substituteFromDict(DEBUG,{'1':'on','0':'off'}))
+        </debug-runtime-libs>
+    </template>
+
+    <define-tag name="building_condition_dynamic" rules="exe,dll,module,lib">
+        <runtime-libs>dynamic</runtime-libs>
+        <cxx-exceptions>on</cxx-exceptions>
+        <cxx-rtti>on</cxx-rtti>
+        <threading>multi</threading>
+        <if cond="FORMAT in ['gnu','autoconf']">
+            <ldflags>-ldl -lpthread</ldflags>
+        </if>
+    </define-tag>
+
+    <define-tag name="building_condition_static" rules="exe,dll,module,lib">
+        <runtime-libs>static</runtime-libs>
+        <cxx-exceptions>on</cxx-exceptions>
+        <cxx-rtti>on</cxx-rtti>
+        <threading>multi</threading>
+        <if cond="FORMAT in ['gnu','autoconf']">
+            <ldflags>-ldl -lpthread</ldflags>
+        </if>
+        <if cond="FORMAT=='mingw'">
+            <ldflags>-static-libgcc -static-libstdc++</ldflags>
+        </if>
+    </define-tag>
+
+    <if cond="FORMAT!='autoconf'">
+        <if cond="FORMAT=='gnu'">
+            <set var="BUILDDIR">$(COMPILER_DEFINE)$(substituteFromDict(DEBUG,{'1':'/debug','0':'/release'}))</set>
+        </if>
+        <if cond="FORMAT in ['msvc','borland','dmars_smake','watcom','intelw']">
+            <set var="BUILDDIR">$(COMPILER_DEFINE)$(DIRSEP)$(substituteFromDict(DEBUG,{'1':'debug','0':'release'}))</set>
+        </if>
+        <if cond="FORMAT=='mingw'">
+            <set var="BUILDDIR">$(COMPILER_DEFINE)$(substituteFromDict(DEBUG,{'1':'\\debug','0':'\\release'}))</set>
+        </if>
+        <if cond="FORMAT=='dmars'">
+            <set var="BUILDDIR">$(COMPILER_DEFINE)</set>
+        </if>
+        <action id="first_check">
+            <dependency-of>all</dependency-of>
+            <if cond="FORMAT in ['mingw','msvc','borland','dmars_smake','watcom','intelw']">
+                <command>if not exist bin mkdir bin</command>
+                <command>if not exist lib mkdir lib</command>
+                <command>if not exist bin$(DIRSEP)$(COMPILER_DEFINE) mkdir bin$(DIRSEP)$(COMPILER_DEFINE)</command>
+                <command>if not exist lib$(DIRSEP)$(COMPILER_DEFINE) mkdir lib$(DIRSEP)$(COMPILER_DEFINE)</command>
+                <command>if $(DOLLAR)(DEBUG) == 1 if not exist $(BUILDDIR) mkdir $(BUILDDIR)</command>
+                <command>if $(DOLLAR)(DEBUG) == 0 if not exist $(BUILDDIR) mkdir $(BUILDDIR)</command>
+            </if>
+            <if cond="FORMAT=='dmars'">
+                <command>if not exist bin mkdir bin</command>
+                <command>if not exist lib mkdir lib</command>
+                <command>if not exist $(BUILDDIR)$(DIRSEP)debug mkdir $(BUILDDIR)$(DIRSEP)debug</command>
+                <command>if not exist $(BUILDDIR)$(DIRSEP)release mkdir $(BUILDDIR)$(DIRSEP)release</command>
+                <command>if not exist bin$(DIRSEP)$(BUILDDIR) mkdir bin$(DIRSEP)$(BUILDDIR)</command>
+                <command>if not exist lib$(DIRSEP)$(BUILDDIR) mkdir lib$(DIRSEP)$(BUILDDIR)</command>
+            </if>
+          <if cond="FORMAT=='gnu'">
+                <command>mkdir -p bin</command>
+                <command>mkdir -p lib</command>
+                <command>mkdir -p bin$(DIRSEP)$(COMPILER_DEFINE)</command>
+                <command>mkdir -p lib$(DIRSEP)$(COMPILER_DEFINE)</command>
+                <command>if test $(DOLLAR)(DEBUG) = 1;then mkdir -p $(BUILDDIR);fi</command>
+                <command>if test $(DOLLAR)(DEBUG) = 0;then mkdir -p $(BUILDDIR);fi</command>
+            </if>
+        </action>
+    </if>
+
+    <if cond="FORMAT in ['mingw','msvc','borland','dmars_smake','watcom','dmars','intelw']">    
+        <action id="register_variable">
+            <dependency-of>all</dependency-of>
+            <command>echo "Register PUREMVC_HOME enviroment variable"</command>
+            <if cond="FORMAT == 'mingw'">
+                <command>%WINDIR%$(DIRSEP)system32$(DIRSEP)reg.exe ADD HKCU$(DIRSEP)Environment /f /v PUREMVC_HOME /d "%cd%"</command>
+            </if>
+            <if cond="FORMAT != 'mingw'">
+                <command>$(DOLLAR)(WINDIR)$(DIRSEP)system32$(DIRSEP)reg.exe ADD HKCU$(DIRSEP)Environment /f /v PUREMVC_HOME /d "%cd%"</command>
+            </if>
+        </action>
+    </if>
+
+    <define-tag name="pure_mvc_source" rules="exe,dll,module,lib">
+        <sources>src$(DIRSEP)PureMVC$(DIRSEP)PureMVC.cpp</sources>
+        <sources>src$(DIRSEP)PureMVC$(DIRSEP)Core$(DIRSEP)Model.cpp</sources>
+        <sources>src$(DIRSEP)PureMVC$(DIRSEP)Core$(DIRSEP)View.cpp</sources>
+        <sources>src$(DIRSEP)PureMVC$(DIRSEP)Core$(DIRSEP)Controller.cpp</sources>
+        <sources>src$(DIRSEP)PureMVC$(DIRSEP)Patterns$(DIRSEP)Observer$(DIRSEP)Notifier.cpp</sources>
+        <sources>src$(DIRSEP)PureMVC$(DIRSEP)Patterns$(DIRSEP)Observer$(DIRSEP)Notification.cpp</sources>
+        <sources>src$(DIRSEP)PureMVC$(DIRSEP)Patterns$(DIRSEP)Command$(DIRSEP)SimpleCommand.cpp</sources>
+        <sources>src$(DIRSEP)PureMVC$(DIRSEP)Patterns$(DIRSEP)Command$(DIRSEP)MacroCommand.cpp</sources>
+        <sources>src$(DIRSEP)PureMVC$(DIRSEP)Patterns$(DIRSEP)Mediator$(DIRSEP)Mediator.cpp</sources>
+        <sources>src$(DIRSEP)PureMVC$(DIRSEP)Patterns$(DIRSEP)Facade$(DIRSEP)Facade.cpp</sources>
+        <sources>src$(DIRSEP)PureMVC$(DIRSEP)Patterns$(DIRSEP)Proxy$(DIRSEP)Proxy.cpp</sources>
+    </define-tag>
+
+    <if cond="FORMAT!='autoconf'">
+        <set var="TARGER">PureMVC$(substituteFromDict(DEBUG,{'1':'d','0':''}))</set>
+    </if>
+    <if cond="FORMAT=='autoconf'">
+        <set var="TARGER">PureMVC</set>
+    </if>
+    <!-- Support: MinGW, Borland, MSVC, GCC -->
+    <if cond="FORMAT != 'dmars'">
+        <lib id="PureMVC_lib" template="debugopt">
+            <if cond="FORMAT=='autoconf'">
+                <libname>$(TARGER)s</libname>
+            </if>
+            <if cond="FORMAT!='autoconf'">
+                <libname>$(TARGER)</libname>
+            </if>
+            <include>include</include>
+            <pure_mvc_source/>
+            <building_condition_static/>
+            <if cond="FORMAT=='borland'">  
+                <cppflags>$(substituteFromDict(CPP0X,{'1':'-Ax','0':''}))</cppflags>
+            </if>
+            <if cond="FORMAT in ['msvc','intelw']">
+                <define>_CRT_SECURE_NO_WARNINGS</define>
+            </if>
+            <install-to>$(PREFIX)$(DIRSEP)lib</install-to>
+            <if cond="FORMAT in['gnu','config','mingw']">  
+                <cppflags>$(substituteFromDict(CPP0X,{'1':'-std=c++0x','0':''}))</cppflags>
+            </if>
+            <if cond="FORMAT == 'dmars_smake'">  
+                <sys-lib>kernel32</sys-lib>
+                <define>_WIN32_WINNT=0x403</define>
+            </if>
+        </lib>
+        <dll id="PureMVC" template="debugopt">
+            <so_version>1.0.0.0</so_version>
+            <dependency-of>PureMVC_lib</dependency-of>
+            <dllname>$(TARGER)</dllname>
+            <if cond="FORMAT=='borland'">  
+                <libname>$(TARGER)dll.lib</libname>
+                <res-define>__BORLANDC__</res-define>
+                <cppflags>$(substituteFromDict(CPP0X,{'1':'-Ax','0':''}))</cppflags>
+            </if>
+            <if cond="FORMAT in ['msvc','intelw']">
+                <define>_CRT_SECURE_NO_WARNINGS</define>
+                <libname>$(TARGER)dll</libname>
+                <ldflags>/NXCOMPAT</ldflags>
+                <ldflags>/DYNAMICBASE</ldflags>
+                <if cond="FORMAT == 'msvc'">
+                    <res-define>_MSC_VER</res-define>
+                </if>
+                <if cond="FORMAT =='intelw'">
+                    <res-define>__INTEL_COMPILER</res-define>
+                </if>
+            </if>
+            <if cond="FORMAT=='dmars_smake'">
+                <libname>$(TARGER)dll</libname>
+                <res-define>__DMC__</res-define>
+                <sys-lib>kernel32</sys-lib>
+                <define>_WIN32_WINNT=0x403</define>
+            </if>
+            <if cond="FORMAT=='mingw'">  
+                <libname>$(TARGER)dll</libname>
+                <res-define>__MINGW32__</res-define>
+                <cppflags>$(substituteFromDict(CPP0X,{'1':'-std=c++0x','0':''}))</cppflags>
+            </if>
+            <if cond="FORMAT in['gnu','config']">  
+                <libname>$(TARGER)</libname>
+                <ldflags>-dynamiclib</ldflags>
+                <cppflags>$(substituteFromDict(CPP0X,{'1':'-std=c++0x','0':''}))</cppflags>
+            </if>
+            <include>include</include>
+            <pure_mvc_source/>
+            <if cond="FORMAT in ['mingw','borland','msvc','dmars_smake','intelw']">
+                <define>USE_DLL</define>
+                <win32-res>src$(DIRSEP)PureMVC$(DIRSEP)Resource$(DIRSEP)PureMVC.rc</win32-res>
+                <res-define>$(substituteFromDict(DEBUG,{'1':'DEBUG','0':'NDEBUG'}))</res-define>
+            </if>
+            <building_condition_dynamic/>
+            <install-to>$(PREFIX)$(DIRSEP)lib</install-to>
+        </dll>
+    </if>
+    <if cond="FORMAT!='autoconf' and FORMAT!='dmars' and FORMAT!='suncc' and FORMAT!='watcom'">
+        <copy-file-to-file id="copy_dll">
+            <dependency-of>all</dependency-of>
+            <if cond="FORMAT in['msvc','borland','mingw','dmars_smake','intelw']">
+                <src>$(BUILDDIR)$(DIRSEP)$(TARGER).dll</src>
+                <dst>bin$(DIRSEP)$(COMPILER_DEFINE)$(DIRSEP)$(TARGER).dll</dst>
+            </if>
+            <if cond="FORMAT=='gnu'">
+                <src>$(BUILDDIR)$(DIRSEP)lib$(TARGER).so</src>
+                <dst>bin$(DIRSEP)$(COMPILER_DEFINE)$(DIRSEP)lib$(TARGER).so</dst>
+            </if>
+        </copy-file-to-file>
+        <copy-file-to-file id="copy_lib">
+            <dependency-of>all</dependency-of>
+            <if cond="FORMAT in ['msvc','borland','dmars_smake','intelw']">
+                <src>$(BUILDDIR)$(DIRSEP)$(TARGER).lib</src>
+                <dst>lib$(DIRSEP)$(COMPILER_DEFINE)$(DIRSEP)$(TARGER).lib</dst>
+            </if>
+            <if cond="FORMAT=='mingw'">
+                <src>$(BUILDDIR)$(DIRSEP)lib$(TARGER).a</src>
+                <dst>lib$(DIRSEP)$(COMPILER_DEFINE)$(DIRSEP)lib$(TARGER).a</dst>
+            </if>
+            <if cond="FORMAT=='gnu'">
+                <src>$(BUILDDIR)$(DIRSEP)lib$(TARGER).a</src>
+                <dst>lib$(DIRSEP)$(COMPILER_DEFINE)$(DIRSEP)lib$(TARGER).a</dst>
+            </if>
+        </copy-file-to-file>
+        <if cond="FORMAT!='gnu'">
+            <copy-file-to-file id="copy_lib_dll">
+                <dependency-of>all</dependency-of>
+                <if cond="FORMAT in ['msvc','borland','dmars_smake','intelw']">
+                    <src>$(BUILDDIR)$(DIRSEP)$(TARGER)dll.lib</src>
+                    <dst>lib$(DIRSEP)$(COMPILER_DEFINE)$(DIRSEP)$(TARGER)dll.lib</dst>
+                </if>
+                <if cond="FORMAT=='mingw'">
+                    <src>$(BUILDDIR)$(DIRSEP)lib$(TARGER)dll.a</src>
+                    <dst>lib$(DIRSEP)$(COMPILER_DEFINE)$(DIRSEP)lib$(TARGER)dll.a</dst>
+                </if>
+            </copy-file-to-file>
+        </if>
+    </if>
+    <if cond="FORMAT=='autoconf'">
+        <modify-target target="install">
+            <command>echo "Creating header directory..."</command>
+            <command>mkdir -p $(PREFIX)$(DIRSEP)include$(DIRSEP)PureMVC</command>
+            <command>mkdir -p $(PREFIX)$(DIRSEP)include$(DIRSEP)PureMVC$(DIRSEP)Interfaces</command>
+            <command>mkdir -p $(PREFIX)$(DIRSEP)include$(DIRSEP)PureMVC$(DIRSEP)Core</command>
+            <command>mkdir -p $(PREFIX)$(DIRSEP)include$(DIRSEP)PureMVC$(DIRSEP)Patterns</command>
+            <command>mkdir -p $(PREFIX)$(DIRSEP)include$(DIRSEP)PureMVC$(DIRSEP)Patterns$(DIRSEP)Command</command>
+            <command>mkdir -p $(PREFIX)$(DIRSEP)include$(DIRSEP)PureMVC$(DIRSEP)Patterns$(DIRSEP)Facade</command>
+            <command>mkdir -p $(PREFIX)$(DIRSEP)include$(DIRSEP)PureMVC$(DIRSEP)Patterns$(DIRSEP)Iterator</command>
+            <command>mkdir -p $(PREFIX)$(DIRSEP)include$(DIRSEP)PureMVC$(DIRSEP)Patterns$(DIRSEP)Mediator</command>
+            <command>mkdir -p $(PREFIX)$(DIRSEP)include$(DIRSEP)PureMVC$(DIRSEP)Patterns$(DIRSEP)Observer</command>
+            <command>mkdir -p $(PREFIX)$(DIRSEP)include$(DIRSEP)PureMVC$(DIRSEP)Patterns$(DIRSEP)Proxy</command>
+            <command>echo "Moving header files..."</command>
+            <command>cp -f include$(DIRSEP)PureMVC$(DIRSEP)*.hpp $(PREFIX)$(DIRSEP)include$(DIRSEP)PureMVC</command>
+            <command>cp -f include$(DIRSEP)PureMVC$(DIRSEP)Core$(DIRSEP)*.hpp $(PREFIX)$(DIRSEP)include$(DIRSEP)PureMVC$(DIRSEP)Core</command>
+            <command>cp -f include$(DIRSEP)PureMVC$(DIRSEP)Interfaces$(DIRSEP)*.hpp $(PREFIX)$(DIRSEP)include$(DIRSEP)PureMVC$(DIRSEP)Interfaces</command>
+            <command>cp -f include$(DIRSEP)PureMVC$(DIRSEP)Patterns$(DIRSEP)Command$(DIRSEP)*.hpp $(PREFIX)$(DIRSEP)include$(DIRSEP)PureMVC$(DIRSEP)Patterns$(DIRSEP)Command</command>
+            <command>cp -f include$(DIRSEP)PureMVC$(DIRSEP)Patterns$(DIRSEP)Facade$(DIRSEP)*.hpp $(PREFIX)$(DIRSEP)include$(DIRSEP)PureMVC$(DIRSEP)Patterns$(DIRSEP)Facade</command>
+            <command>cp -f include$(DIRSEP)PureMVC$(DIRSEP)Patterns$(DIRSEP)Iterator$(DIRSEP)*.hpp $(PREFIX)$(DIRSEP)include$(DIRSEP)PureMVC$(DIRSEP)Patterns$(DIRSEP)Iterator</command>
+            <command>cp -f include$(DIRSEP)PureMVC$(DIRSEP)Patterns$(DIRSEP)Mediator$(DIRSEP)*.hpp $(PREFIX)$(DIRSEP)include$(DIRSEP)PureMVC$(DIRSEP)Patterns$(DIRSEP)Mediator</command>
+            <command>cp -f include$(DIRSEP)PureMVC$(DIRSEP)Patterns$(DIRSEP)Observer$(DIRSEP)*.hpp $(PREFIX)$(DIRSEP)include$(DIRSEP)PureMVC$(DIRSEP)Patterns$(DIRSEP)Observer</command>
+            <command>cp -f include$(DIRSEP)PureMVC$(DIRSEP)Patterns$(DIRSEP)Proxy$(DIRSEP)*.hpp $(PREFIX)$(DIRSEP)include$(DIRSEP)PureMVC$(DIRSEP)Patterns$(DIRSEP)Proxy</command>
+        </modify-target>
+        <modify-target target="uninstall">
+            <command>rm -Rf $(PREFIX)$(DIRSEP)include$(DIRSEP)PureMVC</command>
+            <command>rm -f $(PREFIX)$(DIRSEP)lib$(DIRSEP)pkgconfig$(DIRSEP)puremvc.pc</command>
+            <command>rm -f $(PREFIX)$(DIRSEP)lib$(DIRSEP)pkgconfig$(DIRSEP)puremvc-static.pc</command>
+        </modify-target>
+    </if>
+    <!-- Support make.exe of Digital Mars -->
+    <if cond="FORMAT in ['dmars']">
+        <set var="BUILDDIR">$(COMPILER_DEFINE)$(DIRSEP)release</set>
+        <lib id="PureMVC_lib">
+            <libname>PureMVC</libname>
+            <include>include</include>
+            <pure_mvc_source/>
+            <building_condition_static/>
+            <define>NDEBUG</define>
+            <define>_WIN32_WINNT=0x403</define>
+            <optimize>speed</optimize>
+            <debug-info>off</debug-info>
+            <warnings>no</warnings>
+            <sys-lib>kernel32</sys-lib>
+            <debug-runtime-libs>off</debug-runtime-libs>
+        </lib>
+        <action id="copy_PureMVC_lib">
+            <dependency-of>all</dependency-of>
+            <command>copy $(COMPILER_DEFINE)$(DIRSEP)release$(DIRSEP)PureMVC.lib lib$(DIRSEP)$(COMPILER_DEFINE)</command>
+        </action>
+        <dll id="PureMVC_dll">
+            <dllname>PureMVC</dllname>
+            <libname>PureMVCdll</libname>
+             <define>_DLL</define>
+            <include>include</include>
+            <pure_mvc_source/>
+            <define>USE_DLL</define>
+            <win32-res>src$(DIRSEP)PureMVC$(DIRSEP)Resource$(DIRSEP)PureMVC.rc</win32-res>
+            <res-define>NDEBUG</res-define>
+            <define>_WIN32_WINNT=0x403</define>
+            <res-define>__DMC__</res-define>
+            <building_condition_dynamic/>
+            <define>NDEBUG</define>
+            <optimize>speed</optimize>
+            <debug-info>off</debug-info>
+            <warnings>no</warnings>
+            <sys-lib>kernel32</sys-lib>
+            <debug-runtime-libs>off</debug-runtime-libs>
+        </dll>
+        <action id="copy_PureMVC_dll">
+            <dependency-of>all</dependency-of>
+            <command>copy $(COMPILER_DEFINE)$(DIRSEP)release$(DIRSEP)PureMVCdll.lib lib$(DIRSEP)$(COMPILER_DEFINE)</command>
+            <command>copy $(COMPILER_DEFINE)$(DIRSEP)release$(DIRSEP)PureMVC.dll bin$(DIRSEP)$(COMPILER_DEFINE)</command>
+        </action>
+        <set var="BUILDDIR">$(COMPILER_DEFINE)$(DIRSEP)debug</set>
+        <lib id="PureMVC_lib_debug">
+            <libname>PureMVCd</libname>
+            <include>include</include>
+            <pure_mvc_source/>
+            <building_condition_static/>
+            <define>_DEBUG</define>
+            <define>DEBUG</define>
+            <define>_WIN32_WINNT=0x403</define>
+            <optimize>off</optimize>
+            <debug-info>on</debug-info>
+            <warnings>max</warnings>
+            <sys-lib>kernel32</sys-lib>
+            <debug-runtime-libs>on</debug-runtime-libs>
+        </lib>
+        <action id="copy_PureMVC_lib_debug">
+            <dependency-of>all</dependency-of>
+            <command>copy $(COMPILER_DEFINE)$(DIRSEP)debug$(DIRSEP)PureMVCd.lib lib$(DIRSEP)$(COMPILER_DEFINE)</command>
+        </action>
+        <dll id="PureMVC_dll_debug" template="debugopt">
+            <dllname>PureMVCd</dllname>
+            <libname>PureMVCddll</libname>
+            <define>_DLL</define>
+            <include>include</include>
+            <pure_mvc_source/>
+            <define>USE_DLL</define>
+            <win32-res>src$(DIRSEP)PureMVC$(DIRSEP)Resource$(DIRSEP)PureMVC.rc</win32-res>
+            <res-define>DEBUG</res-define>
+            <res-define>__DMC__</res-define>
+            <building_condition_dynamic/>
+            <define>_DEBUG</define>
+            <define>DEBUG</define>
+            <define>_WIN32_WINNT=0x403</define>
+            <optimize>off</optimize>
+            <debug-info>on</debug-info>
+            <warnings>max</warnings>
+            <sys-lib>kernel32</sys-lib>
+            <debug-runtime-libs>on</debug-runtime-libs>
+        </dll>
+        <action id="copy_PureMVC_dll_debug">
+            <dependency-of>all</dependency-of>
+            <command>copy $(COMPILER_DEFINE)$(DIRSEP)debug$(DIRSEP)PureMVCddll.lib lib$(DIRSEP)$(COMPILER_DEFINE)</command>
+            <command>copy $(COMPILER_DEFINE)$(DIRSEP)debug$(DIRSEP)PureMVCd.dll bin$(DIRSEP)$(COMPILER_DEFINE)</command>
+        </action>
+     </if>
+</makefile>

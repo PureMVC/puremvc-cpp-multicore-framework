@@ -1,0 +1,102 @@
+<?xml version="1.0" ?>
+<!--
+
+  This file is part of Bakefile (http://www.bakefile.org)
+
+  Copyright (C) 2003-2007 Vaclav Slavik
+  Support for Intel C++ on Windows by Phuong Tang - tangkhaiphuong@gmail.com
+
+  Permission is hereby granted, free of charge, to any person obtaining a copy
+  of this software and associated documentation files (the "Software"), to
+  deal in the Software without restriction, including without limitation the
+  rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+  sell copies of the Software, and to permit persons to whom the Software is
+  furnished to do so, subject to the following conditions:
+
+  The above copyright notice and this permission notice shall be included in
+  all copies or substantial portions of the Software.
+
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+  IN THE SOFTWARE.
+
+  $Id: intelw.bkl 1315 2009-07-12 15:06:29Z vadz $
+
+-->
+<makefile>
+    
+    <set var="COMPILER">ic</set>
+    <set var="MAKEFILE_SYNTAX">intelw</set>
+
+    <include file="makefile.bkl"/>
+    <include file="intelw_common.bkl"/>
+
+    <!-- =============================================================== -->
+    <!--                         "make clean":                           -->
+    <!-- =============================================================== -->
+
+    <action id="clean">
+        <set var="__builddir" eval="0">$(BUILDDIR)</set>
+        <command>            
+            -if exist $(__builddir)\*$(OBJEXT) del $(__builddir)\*$(OBJEXT)
+            -if exist $(__builddir)\*.res del $(__builddir)\*.res
+            -if exist $(__builddir)\*.pch del $(__builddir)\*.pch
+        </command>
+    </action>
+
+    <define-tag name="__clean-target-files" rules="exe,dll,module">
+        <clean-files>
+            $(ref('__targetdir',id))$(ref('__name',id)).ilk
+        </clean-files>
+        <clean-files>
+            $(ref('__targetdir',id))$(ref('__name',id)).pdb
+        </clean-files>
+    </define-tag>
+    
+    
+    <!-- =============================================================== -->
+    <!--                     win32 resources:                            -->
+    <!-- =============================================================== -->
+
+    <define-tag name="win32-res" rules="exe,dll,module">
+        <set var="__restmp">
+            $(sources2objects(value, id, '.res'))
+        </set>
+        <set var="__win32_resources" append="1">$(__restmp)</set>
+        <set var="__deps" append="1">$(__restmp)</set>
+    </define-tag>
+
+    <!-- compilation rule for .rc files:  -->
+    <define-rule name="__rc-to-res" extends="__any,compilation_rule">
+        <template>
+            <set var="__command" eval="0">
+                rc /fo$@ $(__win32rc_flags) $(src)
+            </set>
+        </template>
+        <define-tag name="parent-target">
+            <set var="__win32rc_flags">$(targets[value].__win32rc_flags)</set>
+        </define-tag>
+    </define-rule>
+
+    
+    <!-- =============================================================== -->
+    <!--                            output:                              -->
+    <!-- =============================================================== -->
+    
+    <!-- see format_features.bkl for explanation: -->
+    <set var="FORMAT_OUTPUT_VARIABLES">
+        __targetdir __targetname __deps __command
+    </set>
+
+    <output file="$(OUTPUT_FILE)" writer="intelw.empy"/>
+    
+    <if cond="OPTIONS_FILE!='' and WRITE_OPTIONS_FILE=='1'">
+    <output file="$(os.path.join(os.path.dirname(OUTPUT_FILE), OPTIONS_FILE))"
+            writer="intelw-opts.empy"/>
+    </if>
+
+</makefile>

@@ -1,0 +1,167 @@
+<makefile>
+    <using module="datafiles"/>
+    <set var="DEBUG_DEFAULT" overwrite="0">0</set>
+    <option name="DEBUG">
+        <values>0,1</values>
+        <default-value>$(DEBUG_DEFAULT)</default-value>
+        <values-description>Release,Debug</values-description>
+        <description>Set to 1 to build debug version</description>
+    </option>
+    
+    <set var="SHARE_DEFAULT" overwrite="0">0</set>
+    <option name="SHARE">
+        <values>0,1</values>
+        <default-value>$(SHARE_DEFAULT)</default-value>
+        <values-description>Static,Share</values-description>
+        <description>Set to 1 to link dynamic version</description>
+    </option>
+    
+    <set var="CPP0X_DEFAULT" overwrite="0">0</set>
+    <option name="CPP0X">
+        <values>0,1</values>
+        <default-value>$(CPP0X_DEFAULT)</default-value>
+        <values-description>C++0x,C++03</values-description>
+        <description>Set to 1 to build with C++0x support</description>
+    </option>
+
+    <if cond="FORMAT!='autoconf'">
+        <if cond="FORMAT!='mingw'">
+            <set var="COMPILER_DEFINE">$(COMPILER)</set>
+        </if>
+        <if cond="FORMAT=='mingw'">
+            <set var="COMPILER_DEFINE">mingw</set>
+        </if>
+    </if>
+
+     <template id="debugopt">
+        <define>
+            $(substituteFromDict(DEBUG,{'1':'_DEBUG','0':'NDEBUG'}))
+        </define>
+        <define>
+            $(substituteFromDict(DEBUG,{'1':'DEBUG','0':'NDEBUG'}))
+        </define>
+        <optimize>
+            $(substituteFromDict(DEBUG,{'1':'off','0':'speed'}))
+        </optimize>
+        <debug-info>
+            $(substituteFromDict(DEBUG,{'1':'on','0':'off'}))
+        </debug-info>
+        <warnings>
+            $(substituteFromDict(DEBUG,{'1':'max','0':'no'}))
+        </warnings>
+        <debug-runtime-libs>
+            $(substituteFromDict(DEBUG,{'1':'on','0':'off'}))
+        </debug-runtime-libs>
+    </template>
+    
+    <if cond="FORMAT!='autoconf'">
+        <if cond="FORMAT=='gnu'">
+            <set var="BUILDDIR">$(COMPILER_DEFINE)$(substituteFromDict(DEBUG,{'1':'/debug','0':'/release'}))$(substituteFromDict(SHARE,{'1':'/share','0':'/static'}))</set>
+        </if>
+        <if cond="FORMAT in ['msvc','borland','dmars_smake','intelw']">
+            <set var="BUILDDIR">$(COMPILER_DEFINE)$(DIRSEP)$(substituteFromDict(DEBUG,{'1':'debug','0':'release'}))$(DIRSEP)$(substituteFromDict(SHARE,{'1':'share','0':'static'}))</set>
+        </if>
+        <if cond="FORMAT=='mingw'">
+            <set var="BUILDDIR">$(COMPILER_DEFINE)$(substituteFromDict(DEBUG,{'1':'\\debug','0':'\\release'}))$(substituteFromDict(SHARE,{'1':'\\share','0':'\\static'}))</set>
+        </if>
+        <action id="first_check">
+            <dependency-of>all</dependency-of>
+            <if cond="FORMAT in ['mingw','msvc','borland','intelw']">
+                <command>if $(DOLLAR)(DEBUG) == 1 if not exist $(BUILDDIR) mkdir $(BUILDDIR)</command>
+                <command>if $(DOLLAR)(DEBUG) == 0 if not exist $(BUILDDIR) mkdir $(BUILDDIR)</command>
+            </if>
+          <if cond="FORMAT=='gnu'">
+                <command>if test $(DOLLAR)(DEBUG) = 1;then mkdir -p $(BUILDDIR);fi</command>
+                <command>if test $(DOLLAR)(DEBUG) = 0;then mkdir -p $(BUILDDIR);fi</command>
+            </if>
+        </action>
+    </if>
+    
+    <set var="TARGET_NAME_SUBFIX">$(substituteFromDict(DEBUG,{'1':'d','0':''}))$(substituteFromDict(SHARE,{'1':'dll','0':''}))</set>
+
+    <exe id="TestSuite" template="debugopt">
+        <app-type>console</app-type>
+        <exename>$(id)$(TARGET_NAME_SUBFIX)</exename>
+        <include>include</include>
+        <include>..$(DIRSEP)include</include>
+        <sources>src$(DIRSEP)main.cpp</sources>
+        <sources>src$(DIRSEP)ProxyTest.cpp</sources>
+        <sources>src$(DIRSEP)DelegateCommandTest.cpp</sources>
+        <sources>src$(DIRSEP)SimpleCommandTest.cpp</sources>
+        <sources>src$(DIRSEP)MacroCommandTest.cpp</sources>
+        <sources>src$(DIRSEP)MediatorTest.cpp</sources>
+        <sources>src$(DIRSEP)NotificationTest.cpp</sources>
+        <sources>src$(DIRSEP)ObserverTest.cpp</sources>
+        <sources>src$(DIRSEP)ModelTest.cpp</sources>
+        <sources>src$(DIRSEP)FacadeTest.cpp</sources>
+        <sources>src$(DIRSEP)ViewTest.cpp</sources>
+        <sources>src$(DIRSEP)ControllerTest.cpp</sources>
+        <sources>src$(DIRSEP)IteratorTest.cpp</sources>
+        <sources>src$(DIRSEP)PureMVCThreadTest.cpp</sources>
+        <runtime-libs>$(substituteFromDict(SHARE,{'1':'dynamic','0':'static'}))</runtime-libs>
+        <cxx-exceptions>on</cxx-exceptions>
+        <cxx-rtti>on</cxx-rtti>
+        <threading>multi</threading>
+        <if cond="FORMAT=='borland'">  
+            <cppflags>$(substituteFromDict(CPP0X,{'1':'-Ax','0':''}))</cppflags>
+        </if>
+        <if cond="FORMAT=='gnu' or FORMAT=='autoconf'">
+            <ldflags>-ldl -lpthread</ldflags>
+            <cppflags>$(substituteFromDict(CPP0X,{'1':'-std=c++0x','0':''}))</cppflags>
+        </if>
+        <if cond="FORMAT=='mingw'">
+            <define>$(substituteFromDict(SHARE,{'1':'_DLL','0':'_NO_DLL'}))</define>
+            <cppflags>$(substituteFromDict(CPP0X,{'1':'-std=c++0x','0':''}))</cppflags>
+            <ldflags>$(substituteFromDict(SHARE,{'1':'','0':'-static-libgcc -static-libstdc++'}))</ldflags>
+        </if>
+        <if cond="FORMAT in ['msvc','intelw']">
+            <define>_CRT_SECURE_NO_WARNINGS</define>
+        </if>
+        <if cond="FORMAT!='autoconf' and FORMAT!='gnu'">
+            <lib-path>..$(DIRSEP)lib$(DIRSEP)$(COMPILER_DEFINE)</lib-path>
+            <sys-lib>PureMVC$(TARGET_NAME_SUBFIX)</sys-lib>
+        </if>
+        <if cond="FORMAT=='autoconf' or FORMAT=='gnu'">
+            <lib-path>..$(DIRSEP)$(substituteFromDict(SHARE,{'1':'bin','0':'lib'}))$(DIRSEP)$(COMPILER_DEFINE)</lib-path>
+            <sys-lib>PureMVC$(substituteFromDict(DEBUG,{'1':'d','0':''}))</sys-lib>
+        </if>
+    </exe>
+
+    <if cond="FORMAT!='autoconf' and FORMAT!='dmars'">
+        <copy-file-to-file id="copy_bin">
+            <dependency-of>all</dependency-of>
+                <if cond="FORMAT=='gnu'">
+                    <src>$(BUILDDIR)$(DIRSEP)TestSuite$(TARGET_NAME_SUBFIX)</src>
+                    <dst>..$(DIRSEP)bin$(DIRSEP)$(COMPILER_DEFINE)$(DIRSEP)TestSuite$(TARGET_NAME_SUBFIX)</dst>
+                </if>
+                <if cond="FORMAT!='gnu'">
+                    <src>$(BUILDDIR)$(DIRSEP)TestSuite$(TARGET_NAME_SUBFIX).exe</src>
+                    <dst>..$(DIRSEP)bin$(DIRSEP)$(COMPILER_DEFINE)$(DIRSEP)TestSuite$(TARGET_NAME_SUBFIX).exe</dst>
+                </if>
+        </copy-file-to-file>
+        <set var="RUNTIME_LIBRARY_FILE">PureMVC$(substituteFromDict(DEBUG,{'1':'d','0':''}))</set>
+        <if cond="FORMAT in ['borland','msvc','intelw']">
+            <set var="RUNTIME_LIBRARY_FILE">$(RUNTIME_LIBRARY_FILE)$(substituteFromDict(SHARE,{'1':'.dll','0':'.lib'}))</set>
+        </if>
+        <if cond="FORMAT=='mingw'">
+            <set var="RUNTIME_LIBRARY_FILE">$(substituteFromDict(SHARE,{'1':'','0':'lib'}))$(RUNTIME_LIBRARY_FILE)$(substituteFromDict(SHARE,{'1':'.dll','0':'.a'}))</set>
+        </if>
+        <if cond="FORMAT=='gnu'">
+            <set var="RUNTIME_LIBRARY_FILE">lib$(RUNTIME_LIBRARY_FILE)$(substituteFromDict(SHARE,{'1':'.so','0':'.a'}))</set>
+        </if>
+        <copy-file-to-file id="copy_dll">
+            <dependency-of>all</dependency-of>
+            <src>..$(DIRSEP)$(substituteFromDict(SHARE,{'1':'bin','0':'lib'}))$(DIRSEP)$(COMPILER_DEFINE)$(DIRSEP)$(RUNTIME_LIBRARY_FILE)</src>
+            <dst>$(BUILDDIR)$(DIRSEP)$(RUNTIME_LIBRARY_FILE)</dst>
+        </copy-file-to-file>
+        <if cond="FORMAT in ['msvc','intelw']">
+            <set var="MANIFEST_FILE">TestSuite$(TARGET_NAME_SUBFIX).exe.manifest</set>
+            <action id="copy_bin_manifest">
+            <dependency-of>all</dependency-of>
+                <if cond="FORMAT in ['mingw','msvc','borland','intelw']">
+                    <command>if exist $(BUILDDIR)$(DIRSEP)$(MANIFEST_FILE) copy $(BUILDDIR)$(DIRSEP)$(MANIFEST_FILE) ..$(DIRSEP)bin$(DIRSEP)$(COMPILER_DEFINE)$(DIRSEP)$(MANIFEST_FILE)</command>
+                </if>
+            </action>
+        </if>
+    </if>
+</makefile>

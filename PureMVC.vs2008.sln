@@ -1,0 +1,45 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PureMVC", "PureMVC.vs2008.vcproj", "{8E6DD691-B2F0-4567-8A4D-92DFDE03CB50}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestSuite", "testsuite\TestSuite.vs2008.vcproj", "{A0E5F375-EE50-414B-A083-C879493B47B3}"
+	ProjectSection(ProjectDependencies) = postProject
+		{8E6DD691-B2F0-4567-8A4D-92DFDE03CB50} = {8E6DD691-B2F0-4567-8A4D-92DFDE03CB50}
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{25325B79-2612-4E4A-9BAB-49406161F2A5}"
+	ProjectSection(SolutionItems) = preProject
+		license.txt = license.txt
+		version.txt = version.txt
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug Share|Win32 = Debug Share|Win32
+		Debug Static|Win32 = Debug Static|Win32
+		Release Share|Win32 = Release Share|Win32
+		Release Static|Win32 = Release Static|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8E6DD691-B2F0-4567-8A4D-92DFDE03CB50}.Debug Share|Win32.ActiveCfg = Debug Share|Win32
+		{8E6DD691-B2F0-4567-8A4D-92DFDE03CB50}.Debug Share|Win32.Build.0 = Debug Share|Win32
+		{8E6DD691-B2F0-4567-8A4D-92DFDE03CB50}.Debug Static|Win32.ActiveCfg = Debug Static|Win32
+		{8E6DD691-B2F0-4567-8A4D-92DFDE03CB50}.Debug Static|Win32.Build.0 = Debug Static|Win32
+		{8E6DD691-B2F0-4567-8A4D-92DFDE03CB50}.Release Share|Win32.ActiveCfg = Release Share|Win32
+		{8E6DD691-B2F0-4567-8A4D-92DFDE03CB50}.Release Share|Win32.Build.0 = Release Share|Win32
+		{8E6DD691-B2F0-4567-8A4D-92DFDE03CB50}.Release Static|Win32.ActiveCfg = Release Static|Win32
+		{8E6DD691-B2F0-4567-8A4D-92DFDE03CB50}.Release Static|Win32.Build.0 = Release Static|Win32
+		{A0E5F375-EE50-414B-A083-C879493B47B3}.Debug Share|Win32.ActiveCfg = Debug Share|Win32
+		{A0E5F375-EE50-414B-A083-C879493B47B3}.Debug Share|Win32.Build.0 = Debug Share|Win32
+		{A0E5F375-EE50-414B-A083-C879493B47B3}.Debug Static|Win32.ActiveCfg = Debug Static|Win32
+		{A0E5F375-EE50-414B-A083-C879493B47B3}.Debug Static|Win32.Build.0 = Debug Static|Win32
+		{A0E5F375-EE50-414B-A083-C879493B47B3}.Release Share|Win32.ActiveCfg = Release Share|Win32
+		{A0E5F375-EE50-414B-A083-C879493B47B3}.Release Share|Win32.Build.0 = Release Share|Win32
+		{A0E5F375-EE50-414B-A083-C879493B47B3}.Release Static|Win32.ActiveCfg = Release Static|Win32
+		{A0E5F375-EE50-414B-A083-C879493B47B3}.Release Static|Win32.Build.0 = Release Static|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,249 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug Share|Win32">
+      <Configuration>Debug Share</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug Static|Win32">
+      <Configuration>Debug Static</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release Share|Win32">
+      <Configuration>Release Share</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release Static|Win32">
+      <Configuration>Release Static</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectName>PureMVC</ProjectName>
+    <ProjectGuid>{8E6DD691-B2F0-4567-8A4D-92DFDE03CB50}</ProjectGuid>
+    <RootNamespace>PureMVC</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Share|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Share|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Static|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Static|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release Share|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug Share|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release Static|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug Static|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug Static|Win32'">$(SolutionDir)$(Configuration) 2010\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug Static|Win32'">Microsoft Visual Studio 2010\$(Configuration)\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release Static|Win32'">$(SolutionDir)$(Configuration) 2010\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release Static|Win32'">Microsoft Visual Studio 2010\$(Configuration)\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug Share|Win32'">$(SolutionDir)$(Configuration) 2010\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug Share|Win32'">Microsoft Visual Studio 2010\$(Configuration)\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release Share|Win32'">$(SolutionDir)$(Configuration) 2010\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release Share|Win32'">Microsoft Visual Studio 2010\$(Configuration)\</IntDir>
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Debug Share|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Debug Share|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Debug Share|Win32'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Debug Static|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Debug Static|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Debug Static|Win32'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Release Share|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release Share|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release Share|Win32'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Release Static|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release Static|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release Static|Win32'" />
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug Share|Win32'">$(ProjectName)d</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug Static|Win32'">$(ProjectName)d</TargetName>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug Share|Win32'">false</GenerateManifest>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release Share|Win32'">false</GenerateManifest>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug Static|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <ProgramDataBaseFileName>$(IntDir)puremvc_vc90.pdb</ProgramDataBaseFileName>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>DEBUG;_MSC_VER;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ResourceOutputFileName>src\res\pure_mvc.res</ResourceOutputFileName>
+    </ResourceCompile>
+    <Lib>
+      <OutputFile>$(OutDir)$(ProjectName)d.lib</OutputFile>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Lib>
+    <PostBuildEvent>
+      <Command>if not exist "$(ProjectDir)lib" mkdir "$(ProjectDir)lib" &amp;
+if not exist "$(ProjectDir)lib\vc" mkdir "$(ProjectDir)lib\vc" &amp;
+copy "$(TargetPath)"  "$(ProjectDir)lib\vc"
+</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release Static|Win32'">
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <AdditionalIncludeDirectories>include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <ProgramDataBaseFileName>$(IntDir)puremvc_vc90.pdb</ProgramDataBaseFileName>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_MSC_VER;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ResourceOutputFileName>src\res\pure_mvc.res</ResourceOutputFileName>
+    </ResourceCompile>
+    <PostBuildEvent>
+      <Command>if not exist "$(ProjectDir)lib" mkdir "$(ProjectDir)lib" &amp;
+if not exist "$(ProjectDir)lib\vc" mkdir "$(ProjectDir)lib\vc" &amp;
+copy "$(TargetPath)"  "$(ProjectDir)lib\vc"
+</Command>
+    </PostBuildEvent>
+    <Lib>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug Share|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;USE_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <ProgramDataBaseFileName>$(IntDir)puremvc_vc90.pdb</ProgramDataBaseFileName>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>DEBUG;_MSC_VER;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ResourceOutputFileName>src\res\pure_mvc.res</ResourceOutputFileName>
+    </ResourceCompile>
+    <Link>
+      <OutputFile>$(OutDir)$(ProjectName)d.dll</OutputFile>
+      <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
+      <ImportLibrary>$(TargetDir)$(TargetName)dll.lib</ImportLibrary>
+    </Link>
+    <PostBuildEvent>
+      <Command>if not exist "$(ProjectDir)lib" mkdir "$(ProjectDir)lib" &amp;
+if not exist "$(ProjectDir)lib\vc" mkdir "$(ProjectDir)lib\vc" &amp;
+if not exist "$(ProjectDir)bin" mkdir "$(ProjectDir)bin" &amp;
+if not exist "$(ProjectDir)bin\vc" mkdir "$(ProjectDir)bin\vc" &amp;
+copy "$(TargetPath)"  "$(ProjectDir)bin\vc" &amp;
+copy "$(TargetDir)$(TargetName)dll.lib"  "$(ProjectDir)lib\vc"
+</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release Share|Win32'">
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <AdditionalIncludeDirectories>include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;USE_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <ProgramDataBaseFileName>$(IntDir)puremvc_vc90.pdb</ProgramDataBaseFileName>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_MSC_VER;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ResourceOutputFileName>src\res\pure_mvc.res</ResourceOutputFileName>
+    </ResourceCompile>
+    <Link>
+      <ImportLibrary>$(TargetDir)$(TargetName)dll.lib</ImportLibrary>
+    </Link>
+    <PostBuildEvent>
+      <Command>if not exist "$(ProjectDir)lib" mkdir "$(ProjectDir)lib" &amp;
+if not exist "$(ProjectDir)lib\vc" mkdir "$(ProjectDir)lib\vc" &amp;
+if not exist "$(ProjectDir)bin" mkdir "$(ProjectDir)bin" &amp;
+if not exist "$(ProjectDir)bin\vc" mkdir "$(ProjectDir)bin\vc" &amp;
+copy "$(TargetPath)"  "$(ProjectDir)bin\vc" &amp;
+copy "$(TargetDir)$(TargetName)dll.lib"  "$(ProjectDir)lib\vc"
+</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="include\PureMVC\Patterns\Command\DelegateCommand.hpp" />
+    <ClInclude Include="include\PureMVC\PureMVC.hpp" />
+    <ClInclude Include="include\PureMVC\Interfaces\IAggregate.hpp" />
+    <ClInclude Include="include\PureMVC\Interfaces\ICommand.hpp" />
+    <ClInclude Include="include\PureMVC\Interfaces\IController.hpp" />
+    <ClInclude Include="include\PureMVC\Interfaces\IFacade.hpp" />
+    <ClInclude Include="include\PureMVC\Interfaces\IIterator.hpp" />
+    <ClInclude Include="include\PureMVC\Interfaces\IMediator.hpp" />
+    <ClInclude Include="include\PureMVC\Interfaces\IModel.hpp" />
+    <ClInclude Include="include\PureMVC\Interfaces\INotification.hpp" />
+    <ClInclude Include="include\PureMVC\Interfaces\INotifier.hpp" />
+    <ClInclude Include="include\PureMVC\Interfaces\IObserver.hpp" />
+    <ClInclude Include="include\PureMVC\Interfaces\IProxy.hpp" />
+    <ClInclude Include="include\PureMVC\Interfaces\IView.hpp" />
+    <ClInclude Include="include\PureMVC\Patterns\Observer\Notification.hpp" />
+    <ClInclude Include="include\PureMVC\Patterns\Observer\Notifier.hpp" />
+    <ClInclude Include="include\PureMVC\Patterns\Observer\Observer.hpp" />
+    <ClInclude Include="include\PureMVC\Patterns\Command\MacroCommand.hpp" />
+    <ClInclude Include="include\PureMVC\Patterns\Command\SimpleCommand.hpp" />
+    <ClInclude Include="include\PureMVC\Patterns\Facade\Facade.hpp" />
+    <ClInclude Include="include\PureMVC\Patterns\Mediator\Mediator.hpp" />
+    <ClInclude Include="include\PureMVC\Patterns\Proxy\Proxy.hpp" />
+    <ClInclude Include="include\PureMVC\Patterns\Iterator\Iterator.hpp" />
+    <ClInclude Include="include\PureMVC\Core\Controller.hpp" />
+    <ClInclude Include="include\PureMVC\Core\Model.hpp" />
+    <ClInclude Include="include\PureMVC\Core\View.hpp" />
+    <ClInclude Include="src\PureMVC\Common.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\PureMVC\PureMVC.cpp" />
+    <ClCompile Include="src\PureMVC\Patterns\Observer\Notification.cpp" />
+    <ClCompile Include="src\PureMVC\Patterns\Observer\Notifier.cpp" />
+    <ClCompile Include="src\PureMVC\Patterns\Command\MacroCommand.cpp" />
+    <ClCompile Include="src\PureMVC\Patterns\Command\SimpleCommand.cpp" />
+    <ClCompile Include="src\PureMVC\Patterns\Mediator\Mediator.cpp" />
+    <ClCompile Include="src\PureMVC\Patterns\Facade\Facade.cpp" />
+    <ClCompile Include="src\PureMVC\Patterns\Proxy\Proxy.cpp" />
+    <ClCompile Include="src\PureMVC\Core\Controller.cpp" />
+    <ClCompile Include="src\PureMVC\Core\Model.cpp" />
+    <ClCompile Include="src\PureMVC\Core\View.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="src\PureMVC\Resource\PureMVC.rc" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

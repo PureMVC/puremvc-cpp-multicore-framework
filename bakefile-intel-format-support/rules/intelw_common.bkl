@@ -1,0 +1,155 @@
+<?xml version="1.0" ?>
+<!--
+
+  This file is part of Bakefile (http://www.bakefile.org)
+
+  Copyright (C) 2003-2007 Vaclav Slavik
+  Support for Intel C++ on Windows by Phuong Tang - tangkhaiphuong@gmail.com
+
+  Permission is hereby granted, free of charge, to any person obtaining a copy
+  of this software and associated documentation files (the "Software"), to
+  deal in the Software without restriction, including without limitation the
+  rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+  sell copies of the Software, and to permit persons to whom the Software is
+  furnished to do so, subject to the following conditions:
+
+  The above copyright notice and this permission notice shall be included in
+  all copies or substantial portions of the Software.
+
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+  IN THE SOFTWARE.
+
+  $Id: intelw_common.bkl 1326 2009-10-23 09:50:04Z vadz $
+  
+-->
+<makefile>
+
+    <!-- some nontrivial settings shared by all intel formats: -->
+
+    <if cond="COMPILER!='evc'">
+        <tag-info name="threading"
+                  position="before:runtime-libs"/>      
+        
+        <define-tag name="runtime-libs" rules="exe,dll,module,lib">
+            <set var="__rtl_type">
+                $(substituteFromDict(value,
+                  {'static':__rtl_static, 'dynamic':'D'}))
+            </set>
+        </define-tag>
+        
+        <define-tag name="threading" rules="exe,dll,module,lib">
+            <set var="__rtl_static">
+                $(substituteFromDict(value, {'multi':'T', 'single':'L'}))
+            </set>
+        </define-tag>
+
+        <define-tag name="debug-runtime-libs" rules="exe,dll,module,lib">
+            <define>
+                $(substituteFromDict(value, {'on':'_DEBUG', 'off':''}))
+            </define>
+            <set var="__rtl_dbg">
+                $(substituteFromDict(value, {'on':'d', 'off':''}))
+            </set>
+
+            <!-- See bug #212:
+                 Specifying /debug to the linker not only enables PDB
+                 generation (which is what we want) but also automatically
+                 enables incremental linking and disables all linking
+                 optimizations. To correct this we need to add "/opt:ref
+                 /opt:icf" to cl command line (but only if debug runtime
+                 is not used). -->
+            <set var="__extra_debug_flags">
+                $(substituteFromDict(value, {'on':'', 'off':'/opt:ref /opt:icf'}))
+            </set>
+        </define-tag>
+
+        <define-tag name="app-type" rules="exe">
+            <define>
+                $(substituteFromDict(value,
+                {'console':'_CONSOLE', 'gui':'_WINDOWS'}))
+            </define>
+        </define-tag>
+    </if>
+
+    <define-tag name="debug-info" rules="exe,dll,module,lib">
+        <debug-runtime-libs>$(value)</debug-runtime-libs>
+        <set var="__pdbfile" eval="0">$(__targetdir)$(__name).pdb</set>
+        <cppflags>/Fd$(__pdbfile)</cppflags>
+        <ldflags>
+            /pdb:"$(__pdbfile)" $(substituteFromDict(value,
+                                    {'on':ref('__extra_debug_flags', id),
+                                     'off':''}))
+        </ldflags>
+    </define-tag>
+
+
+    
+    <!-- includes and defines should propagate to rc compilation, too: -->
+    
+    <define-tag name="res-include" rules="exe,dll,module">
+        <set var="__win32rc_flags" append="1">
+            $(addPrefixIfNotEmpty('/i ',nativePaths(value)))</set>
+    </define-tag>
+    <define-tag name="res-define" rules="exe,dll,module">
+        <set var="__win32rc_flags" append="1">
+            $(addPrefixIfNotEmpty('/d ',value))</set>
+    </define-tag>
+
+
+    <!-- precompiled headers: -->
+    <!-- (more things in makefile_defs_msvc.bkl and msvc6prj.bkl) -->
+    
+    <tag-info name="precomp-headers-gen"
+              position="after:precomp-headers-header"/>
+    <tag-info name="precomp-headers-file"
+              position="after:precomp-headers-header,after:precomp-headers-gen"/>
+    <tag-info name="precomp-headers"
+              position="after:precomp-headers-file,after:precomp-headers-header,after:precomp-headers-gen"/>
+
+    <define-tag name="precomp-headers-header" rules="exe,dll,module,lib">
+        <set var="__pch_header">$(value)</set>
+        <set var="__pch_flags">/YX"$(__pch_header)"</set>
+    </define-tag>
+
+    <define-tag name="precomp-headers-gen" rules="exe,dll,module,lib">
+        <set var="__pch_flags">/Yu"$(__pch_header)"</set>
+    </define-tag>
+    
+    <define-tag name="precomp-headers-file" rules="exe,dll,module,lib">
+        <set var="__pch_flags" append="1">
+            $(formatIfNotEmpty('/Fp"%s.pch"', mkPathPrefix(BUILDDIR)+value))
+        </set>
+    </define-tag>
+    
+    <define-tag name="precomp-headers" rules="exe,dll,module,lib">
+            <!-- FIXME: should be cppflags, this is temporary hack to
+            make wxWindows work -->
+        <cxxflags> 
+            $(substituteFromDict(value,{'on':__pch_flags, 'off':''}))
+        </cxxflags>
+    </define-tag>
+
+    
+    <!-- =============================================================== -->
+    <!--                   Compiler-specific tags:                       -->
+    <!-- =============================================================== -->
+    
+    <define-tag name="cppflags-intel" rules="exe,lib,dll,module">
+        <cppflags>$(value)</cppflags>
+    </define-tag>
+    <define-tag name="cflags-intel" rules="exe,lib,dll,module">
+        <cflags>$(value)</cflags>
+    </define-tag>
+    <define-tag name="cxxflags-intel" rules="exe,lib,dll,module">
+        <cxxflags>$(value)</cxxflags>
+    </define-tag>
+    <define-tag name="ldflags-intel" rules="exe,dll,module">
+        <ldflags>$(value)</ldflags>
+    </define-tag>
+
+</makefile>

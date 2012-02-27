@@ -1,0 +1,191 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="include">
+      <UniqueIdentifier>{2d9fa733-5617-4b12-8027-8008d758cc30}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\PureMVC">
+      <UniqueIdentifier>{db05dc0e-3957-4a47-bede-daee3e562b59}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\PureMVC\Interfaces">
+      <UniqueIdentifier>{93deae61-7917-49c9-ac1f-0e3cc5618696}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\PureMVC\Patterns">
+      <UniqueIdentifier>{bdbe6f7a-5009-43ee-910c-8bb67d221f9d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\PureMVC\Patterns\Observer">
+      <UniqueIdentifier>{0fc68e58-ddaf-400f-b057-413bab57ac93}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\PureMVC\Patterns\Command">
+      <UniqueIdentifier>{702b855f-2d23-4992-b446-f2bda31a4f6f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\PureMVC\Patterns\Facade">
+      <UniqueIdentifier>{f3145986-0381-443d-bed6-59336d8edf71}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\PureMVC\Patterns\Mediator">
+      <UniqueIdentifier>{405a8874-b283-42f4-bbe8-c856bf22306e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\PureMVC\Patterns\Iterator">
+      <UniqueIdentifier>{4a55796d-8cfa-499f-975b-056d632dee03}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\PureMVC\Core">
+      <UniqueIdentifier>{463f352d-6182-4f19-8ce7-61ccdac0f542}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src">
+      <UniqueIdentifier>{a072af63-d1d8-4f4a-9f4b-59cd938251fa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\PureMVC">
+      <UniqueIdentifier>{db2ec9c6-1478-45b9-9554-b4371dfc1382}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\PureMVC\Patterns">
+      <UniqueIdentifier>{c335bc1d-23d2-4ac2-957d-6b6cf287d4a9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\PureMVC\Patterns\Observer">
+      <UniqueIdentifier>{b6a6df2e-b3fa-4d62-8e4d-3421b2aa028f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\PureMVC\Patterns\Command">
+      <UniqueIdentifier>{46db42d7-6c41-4ce9-a714-64f654541e39}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\PureMVC\Patterns\Mediator">
+      <UniqueIdentifier>{59d59341-ca2e-4c5e-b23b-76b8663b58f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\PureMVC\Patterns\Facade">
+      <UniqueIdentifier>{fba25fd1-6d14-4e1a-ba2e-31f21e5dc8dd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\PureMVC\Patterns\Proxy">
+      <UniqueIdentifier>{81fca33b-3ee1-4f3f-8ac9-8f5a0122dd63}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\PureMVC\Core">
+      <UniqueIdentifier>{e630ab4c-c49b-4a2d-b7fe-9db23414566c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\PureMVC\Resource">
+      <UniqueIdentifier>{ad444382-8a66-4307-9d6b-51dd21bda166}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\PureMVC\Patterns\Proxy">
+      <UniqueIdentifier>{d40db621-a807-4af1-82c0-d0e4fb4fd144}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\PureMVC\PureMVC.hpp">
+      <Filter>include\PureMVC</Filter>
+    </ClInclude>
+    <ClInclude Include="include\PureMVC\Interfaces\IAggregate.hpp">
+      <Filter>include\PureMVC\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="include\PureMVC\Interfaces\ICommand.hpp">
+      <Filter>include\PureMVC\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="include\PureMVC\Interfaces\IController.hpp">
+      <Filter>include\PureMVC\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="include\PureMVC\Interfaces\IFacade.hpp">
+      <Filter>include\PureMVC\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="include\PureMVC\Interfaces\IIterator.hpp">
+      <Filter>include\PureMVC\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="include\PureMVC\Interfaces\IMediator.hpp">
+      <Filter>include\PureMVC\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="include\PureMVC\Interfaces\IModel.hpp">
+      <Filter>include\PureMVC\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="include\PureMVC\Interfaces\INotification.hpp">
+      <Filter>include\PureMVC\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="include\PureMVC\Interfaces\INotifier.hpp">
+      <Filter>include\PureMVC\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="include\PureMVC\Interfaces\IObserver.hpp">
+      <Filter>include\PureMVC\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="include\PureMVC\Interfaces\IProxy.hpp">
+      <Filter>include\PureMVC\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="include\PureMVC\Interfaces\IView.hpp">
+      <Filter>include\PureMVC\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="include\PureMVC\Patterns\Observer\Notification.hpp">
+      <Filter>include\PureMVC\Patterns\Observer</Filter>
+    </ClInclude>
+    <ClInclude Include="include\PureMVC\Patterns\Observer\Notifier.hpp">
+      <Filter>include\PureMVC\Patterns\Observer</Filter>
+    </ClInclude>
+    <ClInclude Include="include\PureMVC\Patterns\Observer\Observer.hpp">
+      <Filter>include\PureMVC\Patterns\Observer</Filter>
+    </ClInclude>
+    <ClInclude Include="include\PureMVC\Patterns\Command\MacroCommand.hpp">
+      <Filter>include\PureMVC\Patterns\Command</Filter>
+    </ClInclude>
+    <ClInclude Include="include\PureMVC\Patterns\Command\SimpleCommand.hpp">
+      <Filter>include\PureMVC\Patterns\Command</Filter>
+    </ClInclude>
+    <ClInclude Include="include\PureMVC\Patterns\Facade\Facade.hpp">
+      <Filter>include\PureMVC\Patterns\Facade</Filter>
+    </ClInclude>
+    <ClInclude Include="include\PureMVC\Patterns\Mediator\Mediator.hpp">
+      <Filter>include\PureMVC\Patterns\Mediator</Filter>
+    </ClInclude>
+    <ClInclude Include="include\PureMVC\Patterns\Proxy\Proxy.hpp">
+      <Filter>include\PureMVC\Patterns\Proxy</Filter>
+    </ClInclude>
+    <ClInclude Include="include\PureMVC\Patterns\Iterator\Iterator.hpp">
+      <Filter>include\PureMVC\Patterns\Iterator</Filter>
+    </ClInclude>
+    <ClInclude Include="include\PureMVC\Core\Controller.hpp">
+      <Filter>include\PureMVC\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\PureMVC\Core\Model.hpp">
+      <Filter>include\PureMVC\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\PureMVC\Core\View.hpp">
+      <Filter>include\PureMVC\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\PureMVC\Common.hpp">
+      <Filter>src\PureMVC</Filter>
+    </ClInclude>
+    <ClInclude Include="include\PureMVC\Patterns\Command\DelegateCommand.hpp">
+      <Filter>include\PureMVC\Patterns\Command</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\PureMVC\PureMVC.cpp">
+      <Filter>src\PureMVC</Filter>
+    </ClCompile>
+    <ClCompile Include="src\PureMVC\Patterns\Observer\Notification.cpp">
+      <Filter>src\PureMVC\Patterns\Observer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\PureMVC\Patterns\Observer\Notifier.cpp">
+      <Filter>src\PureMVC\Patterns\Observer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\PureMVC\Patterns\Command\MacroCommand.cpp">
+      <Filter>src\PureMVC\Patterns\Command</Filter>
+    </ClCompile>
+    <ClCompile Include="src\PureMVC\Patterns\Command\SimpleCommand.cpp">
+      <Filter>src\PureMVC\Patterns\Command</Filter>
+    </ClCompile>
+    <ClCompile Include="src\PureMVC\Patterns\Mediator\Mediator.cpp">
+      <Filter>src\PureMVC\Patterns\Mediator</Filter>
+    </ClCompile>
+    <ClCompile Include="src\PureMVC\Patterns\Facade\Facade.cpp">
+      <Filter>src\PureMVC\Patterns\Facade</Filter>
+    </ClCompile>
+    <ClCompile Include="src\PureMVC\Patterns\Proxy\Proxy.cpp">
+      <Filter>src\PureMVC\Patterns\Proxy</Filter>
+    </ClCompile>
+    <ClCompile Include="src\PureMVC\Core\Controller.cpp">
+      <Filter>src\PureMVC\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\PureMVC\Core\Model.cpp">
+      <Filter>src\PureMVC\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\PureMVC\Core\View.cpp">
+      <Filter>src\PureMVC\Core</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="src\PureMVC\Resource\PureMVC.rc">
+      <Filter>src\PureMVC\Resource</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>

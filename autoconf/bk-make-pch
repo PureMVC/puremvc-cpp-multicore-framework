@@ -1,0 +1,64 @@
+#!/bin/sh
+
+# This script is part of Bakefile (http://www.bakefile.org) autoconf
+# script. It is used to generated precompiled headers.
+#
+# Permission is given to use this file in any way.
+
+outfile="${1}"
+header="${2}"
+shift
+shift
+
+builddir=`echo $outfile | sed -e 's,/\.pch/.*$,,g'`
+
+compiler=""
+headerfile=""
+
+while test ${#} -gt 0; do
+    add_to_cmdline=1
+    case "${1}" in
+        -I* )
+            incdir=`echo ${1} | sed -e 's/-I\(.*\)/\1/g'`
+            if test "x${headerfile}" = "x" -a -f "${incdir}/${header}" ; then
+                headerfile="${incdir}/${header}"
+            fi
+        ;;
+        -use-pch|-use_pch|-pch-use )
+            shift
+            add_to_cmdline=0
+        ;;
+    esac
+    if test $add_to_cmdline = 1 ; then
+        compiler="${compiler} ${1}"
+    fi
+    shift
+done
+
+if test "x${headerfile}" = "x" ; then
+    echo "error: can't find header ${header} in include paths" >&2
+else
+    if test -f ${outfile} ; then
+        rm -f ${outfile}
+    else
+        mkdir -p `dirname ${outfile}`
+    fi
+    depsfile="${builddir}/.deps/`echo ${outfile} | tr '/.' '__'`.d"
+    mkdir -p ${builddir}/.deps
+    if test "x@GCC_PCH@" = "x1" ; then
+        # can do this because gcc is >= 3.4:
+        ${compiler} -o ${outfile} -MMD -MF "${depsfile}" "${headerfile}"
+    elif test "x@ICC_PCH@" = "x1" ; then
+        filename=pch_gen-$$
+        file=${filename}.c
+        dfile=${filename}.d
+        cat > $file <<EOT
+#include "$header"
+EOT
+        # using -MF icc complains about differing command lines in creation/use
+        $compiler -c @ICC_PCH_CREATE_SWITCH@ $outfile -MMD $file && \
+          sed -e "s,^.*:,$outfile:," -e "s, $file,," < $dfile > $depsfile && \
+          rm -f $file $dfile ${filename}.o
+    fi
+    exit ${?}
+fi

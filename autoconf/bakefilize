@@ -1,0 +1,137 @@
+#!/bin/sh
+#
+#  This file is part of Bakefile (http://www.bakefile.org)
+#
+#  Copyright (C) 2003-2007 Vaclav Slavik
+#
+#  Permission is hereby granted, free of charge, to any person obtaining a copy
+#  of this software and associated documentation files (the "Software"), to
+#  deal in the Software without restriction, including without limitation the
+#  rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+#  sell copies of the Software, and to permit persons to whom the Software is
+#  furnished to do so, subject to the following conditions:
+#
+#  The above copyright notice and this permission notice shall be included in
+#  all copies or substantial portions of the Software.
+#
+#  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+#  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+#  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+#  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+#  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+#  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+#  IN THE SOFTWARE.
+#
+#  $Id: bakefilize 1218 2008-05-16 17:05:52Z vadz $
+#
+#  This script copies support files required by Autoconf if used with
+#  Bakefile from Automake (don't ask...) directory.
+#
+
+
+# ------------------------------------------------------------------
+# configuration
+# ------------------------------------------------------------------
+
+AUTOMAKE_DIRS="/usr/local/share /usr/share"
+NEEDED_FILES="INSTALL config.guess config.sub install-sh"
+
+# ------------------------------------------------------------------
+# script code
+# ------------------------------------------------------------------
+
+# Handle command line arguments:
+
+symlink=1
+dry_run=0
+force=0
+verbose=0
+
+give_help_and_exit() {
+    cat >&2 <<END
+Usage: bakefilize [OPTION]...
+
+Prepare a package to use Autoconf+Bakefile.
+
+-c, --copy            copy files rather than symlinking them
+-n, --dry-run         print commands rather than running them
+-f, --force           replace existing files
+-v, --verbose         be verbose
+    --help            display this message and exit
+
+You must 'cd' to the top directory of your package before you run
+'bakefilize'.
+END
+    exit $1
+}
+
+for arg in $* ; do
+    case "$arg" in
+        --help | -h )
+            give_help_and_exit 0
+        ;;
+        --copy | -c )
+            symlink=0
+        ;;
+        --dry-run | -n )
+            dry_run=1
+        ;;
+        --force | -f )
+            force=1
+        ;;
+        --verbose | -v )
+            verbose=1
+        ;;
+        * )
+            echo "Unknown option: \"$arg\"" >&2
+            give_help_and_exit 1
+    esac
+done
+
+
+# Find Automake directory:
+
+automake=""
+for dir in $AUTOMAKE_DIRS ; do
+    if test -n $automake ; then
+        latest=`ls $dir | grep '^automake' | sort -r | head -n 1`
+        if test -n $latest ; then
+            automake=$dir/$latest
+        fi
+    fi
+done
+if test -z $automake ; then
+    echo "Couldn't find automake files, aborting." >&2
+    echo "Searched in: $AUTOMAKE_DIRS" >&2
+    exit 1
+fi
+if test $verbose = 1 ; then
+    echo "using automake from $automake"
+fi
+
+
+# Copy files:
+
+for f in $NEEDED_FILES ; do
+    if test -f $f -a $force = 0 ; then
+        if test $verbose = 1 ; then
+            echo "file $f exists, skipping"
+        fi
+    else
+        if test $verbose = 1 ; then
+            echo "copying file $automake/$f to $f"
+        fi
+        if test $symlink = 1 ; then
+            cmd="ln -s $automake/$f $f"
+        else
+            cmd="cp $automake/$f $f"
+        fi
+        if test $dry_run = 1 ; then
+            echo rm -f $f
+            echo $cmd
+        else
+            rm -f $f
+            $cmd
+        fi
+    fi
+done
