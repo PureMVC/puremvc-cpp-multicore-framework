@@ -99,7 +99,7 @@ PureMVC source code & binary structure:
 
 Building PureMVC source code:
 =============================
-PureMVC was deliveried with source code only (without binary libary). So that before using PureMVC. End user must
+PureMVC was delivered with source code only (without binary libary). So that before using PureMVC. End user must
 build source code again suitable for OS platform and compilers. Please read instruction below carefully to build
 soure code successfully on your host/target platform and compilers. 
 
