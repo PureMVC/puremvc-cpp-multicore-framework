@@ -1,11 +1,9 @@
-PureMVC C++ Port by Tang Khai Phuong <phuong.tang@puremvc.org>
-PureMVC - Copyright(c) 2006-2012 Futurescale, Inc., Some rights reserved.
+PureMVC MultiCore Framework for C++ (Ported)
 --------------------------------------------------------------------------
 Release Date: 02/27/2012
     Platform: C++ (Windows, Unix, MacOS)
      Version: 1 
     Revision: 0
       Author: Tang Khai Phuong <phuong.tang@puremvc.org>
-     License: Creative Commons Attribution 3.0 United States License
 --------------------------------------------------------------------------
 1.0 - Initial release on PureMVC.org
