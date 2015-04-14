@@ -14,7 +14,7 @@
 // PureMVC include
 #if !defined(__PUREMVC_HPP__)
 #define __PUREMVC_INCLUDE__
-#include "../PureMVC.hpp"
+#include "../../PureMVC.hpp"
 #endif /* __PUREMVC_HPP__ */
 
 #include "../../Interfaces/INotification.hpp"
