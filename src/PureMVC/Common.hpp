@@ -81,7 +81,7 @@ namespace PureMVC
         typedef std::map<std::string, _Type*> StringTypeMap;
 #endif
         StringTypeMap* _instance;
-        mutable FastMutex _mutex;
+        mutable FastMutex* _mutex;
     private:
         struct KeyConverter 
 #if !defined(__DMC__) // The C++ compiler of Digital Mars cannot resolve this case
@@ -103,11 +103,13 @@ namespace PureMVC
     public:
         InstanceMap(void)
             : _instance(NULL)
+            , _mutex(NULL)
         { }
         void createCache(void)
         {
             if (_instance != NULL) return;
-            FastMutex::ScopedLock _(_mutex);
+            if (!_mutex) _mutex = new FastMutex();
+            FastMutex::ScopedLock _(*_mutex);
             if (_instance != NULL) return;
 #if defined(_DEBUG) || defined(DEBUG)
             std::cout << "Create instance map of " << _Name << std::endl;
@@ -117,14 +119,16 @@ namespace PureMVC
         void insert(std::pair<std::string, _Type*> const& item)
         {
             createCache();
-            FastMutex::ScopedLock _(_mutex);
+            if (!_mutex) _mutex = new FastMutex();
+            FastMutex::ScopedLock _(*_mutex);
             _instance->insert(item);
         }
         #if defined(PUREMVC_USES_RVALUE)
         void insert(std::pair<std::string, _Type*>&& item)
         {
             createCache();
-            FastMutex::ScopedLock _(_mutex);
+            if (!_mutex) _mutex = new FastMutex();
+            FastMutex::ScopedLock _(*_mutex);
             _instance->insert(std::move(item));
         }
         #endif
@@ -134,14 +138,16 @@ namespace PureMVC
             char buff[20] = { 0 };
             sprintf(buff, "%lx", (unsigned long)value);
             std::pair<std::string, _Type*> item(buff, value);
-            FastMutex::ScopedLock _(_mutex);
+            if (!_mutex) _mutex = new FastMutex();
+            FastMutex::ScopedLock _(*_mutex);
             _instance->insert(item);
         }
         void insert(std::string const& key, _Type* const& value)
         {
             createCache();
             std::pair<std::string, _Type*> item(key, value);
-            FastMutex::ScopedLock _(_mutex);
+            if (!_mutex) _mutex = new FastMutex();
+            FastMutex::ScopedLock _(*_mutex);
             _instance->insert(item);
         }
         #if defined(PUREMVC_USES_RVALUE)
@@ -150,7 +156,8 @@ namespace PureMVC
             createCache();
             std::pair<std::string, _Type*> item(std::move(key), std::move(value));
             value = NULL;
-            FastMutex::ScopedLock _(_mutex);
+            if (!_mutex) _mutex = new FastMutex();
+            FastMutex::ScopedLock _(*_mutex);
             _instance->insert(item);
         }
         #endif
@@ -158,7 +165,8 @@ namespace PureMVC
         {
             _Type * result = NULL;
             if (_instance == NULL) return result;
-            FastMutex::ScopedLock _(_mutex);
+            if (!_mutex) _mutex = new FastMutex();
+            FastMutex::ScopedLock _(*_mutex);
             if (_instance == NULL) return result;
             typename StringTypeMap::iterator iter = _instance->find(key);
             if (iter != _instance->end())
@@ -178,7 +186,8 @@ namespace PureMVC
         {
             _Type * result = NULL;
             if (_instance == NULL) return result;
-            FastMutex::ScopedLock _(_mutex);
+            if (!_mutex) _mutex = new FastMutex();
+            FastMutex::ScopedLock _(*_mutex);
             if (_instance == NULL) return result;
             typename StringTypeMap::const_iterator iter= _instance->find(key);
             if (iter != _instance->end())
@@ -195,7 +204,8 @@ namespace PureMVC
         void getNames(_InsertIterator inserter) const
         {
             if (_instance == NULL) return;
-            FastMutex::ScopedLock _(_mutex);
+            if (!_mutex) _mutex = new FastMutex();
+            FastMutex::ScopedLock _(*_mutex);
             if (_instance == NULL) return;
             typename StringTypeMap::const_iterator iter = _instance->begin();
             for(; iter != _instance->end(); ++iter, ++inserter)
@@ -205,7 +215,8 @@ namespace PureMVC
         void forEachItem(_Predicate predicate) const
         {
             if (_instance == NULL) return;
-            FastMutex::ScopedLock _(_mutex);
+            if (!_mutex) _mutex = new FastMutex();
+            FastMutex::ScopedLock _(*_mutex);
             if (_instance == NULL) return;
             typename StringTypeMap::const_iterator iter = _instance->begin();
             for(; iter != _instance->end(); ++iter)
@@ -220,7 +231,8 @@ namespace PureMVC
         void forEachKey(_Predicate predicate) const
         {
             if (_instance == NULL) return;
-            FastMutex::ScopedLock _(_mutex);
+            if (!_mutex) _mutex = new FastMutex();
+            FastMutex::ScopedLock _(*_mutex);
             if (_instance == NULL) return;
             typename StringTypeMap::const_iterator iter = _instance->begin();
             for(; iter != _instance->end(); ++iter)
@@ -235,7 +247,8 @@ namespace PureMVC
         void forEachValue(_Predicate predicate) const
         {
             if (_instance == NULL) return;
-            FastMutex::ScopedLock _(_mutex);
+            if (!_mutex) _mutex = new FastMutex();
+            FastMutex::ScopedLock _(*_mutex);
             if (_instance == NULL) return;
             typename StringTypeMap::const_iterator iter = _instance->begin();
             for(; iter != _instance->end(); ++iter)
@@ -250,7 +263,8 @@ namespace PureMVC
         std::auto_ptr<Interfaces::IAggregate<StringTypeMap::key_type> > getKeyAggregate()
         {
             createCache();
-            FastMutex::ScopedLock _(_mutex);
+            if (!_mutex) _mutex = new FastMutex();
+            FastMutex::ScopedLock _(*_mutex);
             typedef Patterns::StdContainerAggregate<StringTypeMap*,
                                                     StringTypeMap::key_type,
                                                     StringTypeMap::const_iterator,
@@ -266,7 +280,8 @@ namespace PureMVC
 #endif
         {
             createCache();
-            FastMutex::ScopedLock _(_mutex);
+            if (!_mutex) _mutex = new FastMutex();
+            FastMutex::ScopedLock _(*_mutex);
             typedef Patterns::StdContainerAggregate<StringTypeMap*,
                                                     typename StringTypeMap::key_type,
                                                     typename StringTypeMap::const_iterator,
@@ -282,7 +297,8 @@ namespace PureMVC
         void cleanCache(void)
         {
             if (_instance == NULL) return;
-            FastMutex::ScopedLock _(_mutex);
+            if (!_mutex) _mutex = new FastMutex();
+            FastMutex::ScopedLock _(*_mutex);
             if (_instance == NULL) return;
 #if defined(_DEBUG) || defined(DEBUG)
             std::cout << "Clean instance map of " << _Name <<" - Number object: " << _instance->size() << std::endl;
@@ -299,6 +315,8 @@ namespace PureMVC
         ~InstanceMap(void)
         {
             cleanCache();
+            if (_mutex) delete _mutex;
+            _mutex = NULL;
         }
     };
 }

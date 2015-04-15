@@ -27,6 +27,7 @@ extern "C" WINBASEAPI BOOL WINAPI TryEnterCriticalSection(LPCRITICAL_SECTION);
 #include <pthread.h>
 #include <errno.h>
 #include <sys/time.h>
+#include <unistd.h>
 typedef pthread_mutex_t puremvc_mutex_t;
 typedef pthread_mutex_t puremvc_fast_mutex_t;
 typedef std::pair<pthread_t, std::pair<bool, pthread_cond_t> > puremvc_thread_t;
@@ -80,14 +81,13 @@ void PureMVC::createCache(void)
 }
 
 Mutex::Mutex(void)
-#if defined(_WIN32) || defined(_WIN64)
     : _mutex(NULL)
 {
+#if defined(_WIN32) || defined(_WIN64)
     _mutex = ::CreateMutex((LPSECURITY_ATTRIBUTES) 0, FALSE,(LPCTSTR) 0);
     if (_mutex == NULL)
         throw std::runtime_error("Cannot create mutex!");
 #else
-{
     register int rc;
     puremvc_mutex_t* mutex = new puremvc_mutex_t();
     pthread_mutexattr_t attr;
@@ -177,14 +177,12 @@ Mutex::~Mutex(void)
 
 
 FastMutex::FastMutex(void)
-#if defined(_WIN32) || defined(_WIN64)
     : _mutex(NULL)
 {
+#if defined(_WIN32) || defined(_WIN64)
     _mutex = new CRITICAL_SECTION();
     ::InitializeCriticalSectionAndSpinCount((CRITICAL_SECTION*)_mutex, 4000);
-
 #else
-    {
     register int rc;
     puremvc_fast_mutex_t* mutex = new puremvc_fast_mutex_t();
     pthread_mutexattr_t attr;
@@ -631,7 +629,7 @@ std::string Thread::getCurrentThreadId(void)
     return ss.str();
 }
 
-Thread::~Thread()
+Thread::~Thread(void)
 {
     try
     {
